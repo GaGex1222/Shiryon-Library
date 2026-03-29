@@ -312,13 +312,14 @@ export function WithdrawalForm({ onWithdrawalSaved }: { onWithdrawalSaved?: () =
                           placeholder="חיפוש ספר במאגר…"
                         />
                         <Input
-                          type="number"
-                          min={1}
+                          type="text"
+                          inputMode="numeric"
                           placeholder="כמות"
-                          value={item.quantity}
-                          onChange={(e) =>
-                            updateItemQty(idx, Math.max(1, parseInt(e.target.value) || 1))
-                          }
+                          value={item.quantity === 0 ? "" : item.quantity}
+                          onChange={(e) => {
+                            const raw = e.target.value.replace(/\D/g, "");
+                            updateItemQty(idx, raw === "" ? 0 : parseInt(raw));
+                          }}
                           className="w-20 shrink-0 bg-background text-center"
                         />
                         {items.length > 1 && (
