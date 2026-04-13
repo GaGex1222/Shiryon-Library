@@ -14,8 +14,8 @@ export interface BookCategory {
 
 export const CATEGORIES: BookCategory[] = [
   { name: 'מדור תותחנות', bookshelves: [1, 2, 3] },
-  { name: 'מדור מענ"ק וכשירויות', bookshelves: [4, 5, 6] },
-  { name: 'מדור מרכבה', bookshelves: [7, 8, 9] },
+  { name: 'מדור מרכבה', bookshelves: [4, 5, 6] },
+  { name: 'מדור מענ"ק וכשירויות', bookshelves: [7, 8, 9] },
 ];
 
 export function getCategoryForBookshelf(bookshelfNumber: number): BookCategory | undefined {
