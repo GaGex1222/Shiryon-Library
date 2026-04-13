@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Book } from "@/lib/bookStore";
+import { Book, locationLabel } from "@/lib/bookStore";
 import { Minus, Plus } from "lucide-react";
 
 interface BookModalProps {
@@ -22,7 +22,7 @@ export function BookModal({ book, open, onClose, onUpdateQuantity }: BookModalPr
         <div className="space-y-4 pt-2">
           <div className="flex items-center justify-between text-sm text-muted-foreground">
             <span>
-              ארון {book.bookshelf_number}, מדף {book.shelf_level}
+              {locationLabel(book.bookshelf_number, book.shelf_level)}
             </span>
           </div>
           <div className="flex items-center justify-between rounded-lg bg-secondary p-4">

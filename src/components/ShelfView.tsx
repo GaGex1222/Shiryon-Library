@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Book } from "@/lib/bookStore";
+import { Book, getCategoryForBookshelf } from "@/lib/bookStore";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useElementWidth } from "@/hooks/useElementWidth";
@@ -31,6 +31,7 @@ export function ShelfView({ shelfNumber, books, onBack, onSelectBook, onSelectSh
     shelfContainerW > 0 ? Math.max(180, Math.min(660, shelfContainerW - 64)) : 660;
 
   const filteredBooks = activeShelf ? books.filter((b) => b.shelf_level === activeShelf) : [];
+  const category = getCategoryForBookshelf(shelfNumber);
 
   // Compute total height so the back/side panels always match the content
   const booksPerRowForHeight = Math.max(
@@ -66,7 +67,12 @@ export function ShelfView({ shelfNumber, books, onBack, onSelectBook, onSelectSh
         >
           <ArrowRight className="h-5 w-5" />
         </Button>
-        <h2 className="truncate text-xl font-semibold text-foreground sm:text-2xl">ארון {shelfNumber}</h2>
+        <h2 className="min-w-0 text-xl font-semibold text-foreground sm:text-2xl">
+          {category && (
+            <span className="block text-xs font-normal text-primary">{category.name}</span>
+          )}
+          ארון {shelfNumber}
+        </h2>
       </div>
 
       <div className="perspective-room -mx-1 mb-6 flex touch-pan-x justify-center overflow-x-auto overflow-y-visible overscroll-x-contain px-1 sm:mb-8 md:mx-0 md:touch-auto md:overflow-x-visible md:overscroll-x-auto md:px-0">

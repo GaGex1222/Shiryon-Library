@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, X, MapPin, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { searchBooks, normalizeBookFromDb, type Book } from "@/lib/bookStore";
+import { searchBooks, normalizeBookFromDb, locationLabel, type Book } from "@/lib/bookStore";
 
 interface SearchBarProps {
   onNavigate: (bookshelfNumber: number, shelfLevel: number) => void;
@@ -105,7 +105,7 @@ export function SearchBar({ onNavigate, onSelectBook }: SearchBarProps) {
                       <p className="truncate text-sm text-foreground">{book.book_name}</p>
                       <div className="flex flex-wrap items-center gap-1 text-xs text-muted-foreground">
                         <MapPin className="h-3 w-3 shrink-0" />
-                        ארון {book.bookshelf_number}, מדף {book.shelf}
+                        {locationLabel(book.bookshelf_number, book.shelf)}
                         <span className="ms-2">• {book.quantity} עותקים</span>
                       </div>
                     </div>

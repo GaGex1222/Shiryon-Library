@@ -7,6 +7,27 @@ const supabaseAnonKey =
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
+export interface BookCategory {
+  name: string;
+  bookshelves: readonly [number, number, number];
+}
+
+export const CATEGORIES: BookCategory[] = [
+  { name: 'מדור מרכבה', bookshelves: [1, 2, 3] },
+  { name: 'מדור מענ"ק וכשירויות', bookshelves: [4, 5, 6] },
+  { name: 'מדור בדח', bookshelves: [7, 8, 9] },
+];
+
+export function getCategoryForBookshelf(bookshelfNumber: number): BookCategory | undefined {
+  return CATEGORIES.find((c) => (c.bookshelves as number[]).includes(bookshelfNumber));
+}
+
+export function locationLabel(bookshelfNumber: number, shelfLevel: number | string): string {
+  const cat = getCategoryForBookshelf(bookshelfNumber);
+  const catPart = cat ? `${cat.name}, ` : '';
+  return `${catPart}ארון ${bookshelfNumber}, מדף ${shelfLevel}`;
+}
+
 export interface BookDbRow {
   id: string;
   book_name: string;

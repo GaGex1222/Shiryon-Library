@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Plus } from "lucide-react";
+import { CATEGORIES } from "@/lib/bookStore";
 
 interface PlacementFormProps {
   onAdd: (title: string, bookshelf: number, shelf: number, quantity: number) => void;
@@ -46,10 +47,17 @@ export function PlacementForm({ onAdd }: PlacementFormProps) {
               <SelectValue placeholder="בחרו…" />
             </SelectTrigger>
             <SelectContent>
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
-                <SelectItem key={n} value={String(n)}>
-                  ארון {n}
-                </SelectItem>
+              {CATEGORIES.map((cat) => (
+                <div key={cat.name}>
+                  <div className="px-2 py-1 text-[11px] font-semibold text-muted-foreground">
+                    {cat.name}
+                  </div>
+                  {cat.bookshelves.map((n) => (
+                    <SelectItem key={n} value={String(n)}>
+                      ארון {n}
+                    </SelectItem>
+                  ))}
+                </div>
               ))}
             </SelectContent>
           </Select>
