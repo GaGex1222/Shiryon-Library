@@ -139,6 +139,19 @@ export async function updateBookDetails(
   return data;
 }
 
+export async function deleteBookFromShelf(bookshelfNumber: number, bookId: string) {
+  const tableName = `bookshelf_${bookshelfNumber}`;
+
+  const { error } = await supabase.from(tableName).delete().eq("id", bookId);
+
+  if (error) {
+    console.error(`Error deleting book from ${tableName}:`, error.message);
+    return false;
+  }
+
+  return true;
+}
+
 export interface WithdrawalItem {
   book_name: string;
   quantity: number;

@@ -11,9 +11,10 @@ interface BookModalProps {
   open: boolean;
   onClose: () => void;
   onSaveBook: (id: string, title: string, quantity: number) => void | Promise<void>;
+  onDeleteBook: (id: string) => void | Promise<void>;
 }
 
-export function BookModal({ book, open, onClose, onSaveBook }: BookModalProps) {
+export function BookModal({ book, open, onClose, onSaveBook, onDeleteBook }: BookModalProps) {
   const [titleInput, setTitleInput] = useState("");
   const [quantityInput, setQuantityInput] = useState("0");
 
@@ -33,6 +34,11 @@ export function BookModal({ book, open, onClose, onSaveBook }: BookModalProps) {
   const handleSave = async () => {
     if (!normalizedTitle) return;
     await onSaveBook(book.id, normalizedTitle, safeQuantity);
+  };
+
+  const handleDelete = async () => {
+    await onDeleteBook(book.id);
+    onClose();
   };
 
   return (
@@ -86,7 +92,10 @@ export function BookModal({ book, open, onClose, onSaveBook }: BookModalProps) {
               </Button>
             </div>
           </div>
-          <div className="flex justify-end">
+          <div className="flex items-center justify-between gap-3">
+            <Button variant="destructive" onClick={handleDelete}>
+              מחיקה מלאה
+            </Button>
             <Button onClick={handleSave} disabled={!canSave}>
               שמירה
             </Button>

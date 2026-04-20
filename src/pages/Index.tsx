@@ -10,6 +10,7 @@ import { Loader2 } from "lucide-react";
 import {
   supabase,
   addBookToShelf,
+  deleteBookFromShelf,
   updateBookDetails,
   normalizeBookFromDb,
   type Book,
@@ -113,6 +114,20 @@ const Index = () => {
     []
   );
 
+  const handleDeleteBook = useCallback(
+    async (id: string) => {
+      const sourceBook = books.find((b) => b.id === id) ?? selectedBook;
+      if (!sourceBook) return;
+
+      const deleted = await deleteBookFromShelf(sourceBook.bookshelf_number, id);
+      if (!deleted) return;
+
+      setBooks((prev) => prev.filter((b) => b.id !== id));
+      setSelectedBook((prev) => (prev?.id === id ? null : prev));
+    },
+    [books, selectedBook]
+  );
+
   const handleSearchNavigate = useCallback((bookshelfNumber: number, shelfLevel: number) => {
     setActiveBookshelf(bookshelfNumber);
     setActiveShelf(shelfLevel);
@@ -168,6 +183,7 @@ const Index = () => {
         open={!!selectedBook}
         onClose={() => setSelectedBook(null)}
         onSaveBook={handleSaveBookChanges}
+        onDeleteBook={handleDeleteBook}
       />
     </div>
   );
