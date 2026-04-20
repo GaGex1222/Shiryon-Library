@@ -10,7 +10,7 @@ import { Loader2 } from "lucide-react";
 import {
   supabase,
   addBookToShelf,
-  updateBookStock,
+  updateBookDetails,
   normalizeBookFromDb,
   type Book,
   type BookDbRow,
@@ -65,19 +65,34 @@ const Index = () => {
     setActiveShelf(null);
   }, []);
 
-  const handleUpdateQuantity = useCallback(
-    async (id: string, delta: number) => {
-      if (!selectedBook) return;
+  const handleSaveBookChanges = useCallback(
+    async (id: string, title: string, quantity: number) => {
+      const sourceBook = books.find((b) => b.id === id) ?? selectedBook;
+      if (!sourceBook) return;
 
-      const newQty = Math.max(0, (selectedBook.quantity || 0) + delta);
-      const updatedData = await updateBookStock(selectedBook.bookshelf_number, id, newQty);
+      const normalizedTitle = title.trim();
+      if (!normalizedTitle) return;
+
+      const normalizedQuantity = Math.max(0, Math.floor(Number(quantity) || 0));
+      const updatedData = await updateBookDetails(sourceBook.bookshelf_number, id, {
+        book_name: normalizedTitle,
+        quantity: normalizedQuantity,
+      });
 
       if (updatedData) {
-        setBooks((prev) => prev.map((b) => (b.id === id ? { ...b, quantity: newQty } : b)));
-        setSelectedBook((prev) => (prev ? { ...prev, quantity: newQty } : null));
+        setBooks((prev) =>
+          prev.map((b) =>
+            b.id === id ? { ...b, quantity: normalizedQuantity, title: normalizedTitle, book_name: normalizedTitle } : b
+          )
+        );
+        setSelectedBook((prev) =>
+          prev && prev.id === id
+            ? { ...prev, quantity: normalizedQuantity, title: normalizedTitle, book_name: normalizedTitle }
+            : prev
+        );
       }
     },
-    [selectedBook]
+    [books, selectedBook]
   );
 
   const handleAddBook = useCallback(
@@ -152,7 +167,7 @@ const Index = () => {
         book={selectedBook}
         open={!!selectedBook}
         onClose={() => setSelectedBook(null)}
-        onUpdateQuantity={handleUpdateQuantity}
+        onSaveBook={handleSaveBookChanges}
       />
     </div>
   );

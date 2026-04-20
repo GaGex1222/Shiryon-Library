@@ -115,6 +115,30 @@ export async function updateBookStock(bookshelfNumber: number, bookId: string, n
   return data;
 }
 
+export async function updateBookDetails(
+  bookshelfNumber: number,
+  bookId: string,
+  updates: { quantity: number; book_name: string }
+) {
+  const tableName = `bookshelf_${bookshelfNumber}`;
+
+  const { data, error } = await supabase
+    .from(tableName)
+    .update({
+      quantity: updates.quantity,
+      book_name: updates.book_name,
+    })
+    .eq("id", bookId)
+    .select();
+
+  if (error) {
+    console.error(`Error updating book in ${tableName}:`, error.message);
+    return null;
+  }
+
+  return data;
+}
+
 export interface WithdrawalItem {
   book_name: string;
   quantity: number;
