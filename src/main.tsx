@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client";
-import { PasswordGate } from "@/components/PasswordGate";
+import App from "@/App";
 import "./index.css";
 
-createRoot(document.getElementById("root")!).render(<PasswordGate />);
+createRoot(document.getElementById("root")!).render(<App />);
