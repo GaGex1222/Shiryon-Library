@@ -75,7 +75,7 @@ export function ShelfView({ shelfNumber, books, onBack, onSelectBook, onSelectSh
         </h2>
       </div>
 
-      <div className="perspective-room -mx-1 mb-6 flex touch-pan-x justify-center overflow-x-auto overflow-y-visible overscroll-x-contain px-1 sm:mb-8 md:mx-0 md:touch-auto md:overflow-x-visible md:overscroll-x-auto md:px-0">
+      <div className="perspective-room -mx-1 mb-6 flex touch-auto justify-center overflow-x-auto overflow-y-visible overscroll-x-contain px-1 sm:mb-8 md:mx-0 md:overflow-x-visible md:overscroll-x-auto md:px-0">
         <div className="relative min-w-0 w-full max-w-[700px] preserve-3d" style={{ transform: "rotateX(5deg)" }}>
           <div
             ref={shelfContainerRef}
@@ -132,7 +132,7 @@ export function ShelfView({ shelfNumber, books, onBack, onSelectBook, onSelectSh
                     onClick={() => onSelectShelf(level)}
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.995 }}
-                    style={{ transformStyle: "preserve-3d", height: `${shelfHeight}px` }}
+                    style={{ transformStyle: "preserve-3d", height: `${shelfHeight}px`, touchAction: "pan-y" }}
                   >
                     <div className="absolute start-2 top-1 z-10 flex max-w-[95%] flex-wrap items-center gap-1 sm:gap-2">
                       <span className="text-[10px] font-medium text-gold-dim">מדף {level}</span>
@@ -158,6 +158,7 @@ export function ShelfView({ shelfNumber, books, onBack, onSelectBook, onSelectSh
                               height: `${SPINE_FIXED_HEIGHT_PX}px`,
                               backgroundColor: book.color,
                               boxShadow: "2px 3px 8px rgba(0,0,0,0.45)",
+                              touchAction: "pan-y",
                             }}
                             whileHover={{ y: -4, scale: 1.03 }}
                             whileTap={{ scale: 0.97 }}
